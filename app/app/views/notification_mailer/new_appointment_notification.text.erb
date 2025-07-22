@@ -1,0 +1,39 @@
+NEW APPOINTMENT BOOKED!
+========================
+
+A new appointment has been booked through the website!
+
+APPOINTMENT DETAILS:
+--------------------
+Service: <%= @service.name %>
+Date: <%= @appointment.formatted_date %>
+Time: <%= @appointment.formatted_time %>
+Duration: <%= @service.formatted_duration %>
+Price: <%= @service.formatted_price %>
+Status: PENDING CONFIRMATION
+
+CUSTOMER INFORMATION:
+---------------------
+Name: <%= @user.first_name %> <%= @user.last_name %>
+Email: <%= @user.email %>
+Phone: <%= @user.phone || "Not provided" %>
+
+<% if @appointment.notes.present? %>
+CUSTOMER NOTES:
+---------------
+<%= @appointment.notes %>
+<% end %>
+
+NEXT STEPS:
+-----------
+1. Review the appointment details
+2. Confirm availability for the requested time
+3. Reply to the customer to confirm or suggest alternatives
+4. Update the appointment status in the admin dashboard
+
+---
+Olga's Skin Secrets
+110 Nyon Rd, New Bern, NC 28562
+(919) 897-0150 | skinsecretsnc@gmail.com
+
+This notification was sent automatically when a new appointment was booked on skin-secrets.fly.dev 

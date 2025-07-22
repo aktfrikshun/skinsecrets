@@ -1,0 +1,167 @@
+<div class="bg-gradient-to-br from-amber-50 to-warm-50 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <h1 class="font-playfair text-4xl md:text-5xl font-bold text-gray-900 mb-4">Facebook Integration Settings</h1>
+      <p class="text-lg text-gray-600">Manage Facebook posting for forum topics and test the integration.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Configuration Status -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <i class="fab fa-facebook mr-3 text-blue-600"></i>Configuration Status
+        </h3>
+        
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-key text-amber-600 mr-3"></i>
+              <span class="font-medium">Page Access Token</span>
+            </div>
+            <% if Rails.application.credentials.facebook_page_access_token.present? %>
+              <span class="text-green-600 font-semibold">✓ Configured</span>
+            <% else %>
+              <span class="text-red-600 font-semibold">✗ Missing</span>
+            <% end %>
+          </div>
+
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-id-badge text-amber-600 mr-3"></i>
+              <span class="font-medium">Page ID</span>
+            </div>
+            <% if Rails.application.credentials.facebook_page_id.present? %>
+              <span class="text-green-600 font-semibold">✓ Configured</span>
+            <% else %>
+              <span class="text-red-600 font-semibold">✗ Missing</span>
+            <% end %>
+          </div>
+
+          <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-amber-600 mr-3"></i>
+              <span class="font-medium">Integration Status</span>
+            </div>
+            <% if @facebook_configured %>
+              <span class="text-green-600 font-semibold">✓ Ready</span>
+            <% else %>
+              <span class="text-red-600 font-semibold">✗ Not Ready</span>
+            <% end %>
+          </div>
+        </div>
+
+        <% unless @facebook_configured %>
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+            <h4 class="font-semibold text-yellow-800 mb-3">Setup Required</h4>
+            <p class="text-yellow-700 mb-4">To enable Facebook integration, you need to configure your Facebook app credentials.</p>
+            <div class="text-sm text-yellow-700">
+              <p class="mb-2"><strong>Steps:</strong></p>
+              <ol class="list-decimal list-inside space-y-1">
+                <li>Go to <a href="https://developers.facebook.com/" target="_blank" class="underline">Facebook Developers</a></li>
+                <li>Create a new app or use existing app</li>
+                <li>Get a Page Access Token for your Facebook page</li>
+                <li>Get your Facebook Page ID</li>
+                <li>Run: <code class="bg-yellow-100 px-2 py-1 rounded">rails credentials:edit</code></li>
+                <li>Add your credentials</li>
+              </ol>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Test Button -->
+        <div class="space-y-4">
+          <% if @facebook_configured %>
+            <%= button_to admin_test_facebook_path, method: :post, class: "w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1", form: { style: "display: inline;" } do %>
+              <i class="fas fa-paper-plane mr-2"></i>Test Facebook Posting
+            <% end %>
+          <% else %>
+            <button disabled class="w-full bg-gray-300 text-gray-500 py-3 px-6 rounded-lg font-semibold cursor-not-allowed">
+              <i class="fas fa-paper-plane mr-2"></i>Configure Facebook First
+            </button>
+          <% end %>
+
+          <%= link_to admin_dashboard_path, class: "w-full border border-gray-300 text-gray-700 py-3 px-6 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-300 text-center block" do %>
+            <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Recent Facebook Topics -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-list mr-3 text-amber-600"></i>Recent Facebook Topics
+        </h3>
+        
+        <% if @recent_facebook_topics.any? %>
+          <div class="space-y-4">
+            <% @recent_facebook_topics.each do |topic| %>
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-start justify-between mb-2">
+                  <h4 class="font-semibold text-gray-900">
+                    <%= link_to topic.title, forum_topic_path(topic), class: "hover:text-amber-600 transition-colors duration-300" %>
+                  </h4>
+                  <div class="flex space-x-2">
+                    <% if topic.user.email == 'ai@skinsecrets.com' %>
+                      <span class="px-2 py-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs rounded-full">
+                        <i class="fas fa-robot mr-1"></i>AI
+                      </span>
+                    <% end %>
+                    <span class="px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded-full">
+                      <i class="fab fa-facebook mr-1"></i>FB
+                    </span>
+                  </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-2"><%= topic.excerpt %></p>
+                <div class="flex items-center text-gray-500 text-xs">
+                  <span class="mr-4">By: <%= topic.user.full_name %></span>
+                  <span><%= topic.created_at.strftime("%B %d, %Y") %></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-comments text-gray-400 text-2xl"></i>
+            </div>
+            <p class="text-gray-600">No Facebook topics yet</p>
+            <p class="text-gray-500 text-sm">Topics from AI and admin users will appear here</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Integration Info -->
+    <div class="mt-8 bg-white rounded-2xl shadow-lg p-8">
+      <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center">
+        <i class="fas fa-info-circle mr-3 text-amber-600"></i>How It Works
+      </h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-robot text-amber-600 text-2xl"></i>
+          </div>
+          <h4 class="font-semibold text-gray-900 mb-2">AI Topics</h4>
+          <p class="text-gray-600 text-sm">Automatically generated topics are posted to Facebook</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-user-shield text-blue-600 text-2xl"></i>
+          </div>
+          <h4 class="font-semibold text-gray-900 mb-2">Admin Topics</h4>
+          <p class="text-gray-600 text-sm">Topics created by admin users are posted to Facebook</p>
+        </div>
+        
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fab fa-facebook text-green-600 text-2xl"></i>
+          </div>
+          <h4 class="font-semibold text-gray-900 mb-2">Facebook Posts</h4>
+          <p class="text-gray-600 text-sm">Include title, excerpt, and link back to the forum</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Appointment Booked</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #f8b500;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #8b4513;
+      margin-bottom: 10px;
+    }
+    .urgent-badge {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .appointment-details {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #f8b500;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .detail-label {
+      font-weight: bold;
+      color: #666;
+    }
+    .detail-value {
+      color: #333;
+    }
+    .customer-info {
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid #2196f3;
+    }
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #f8b500, #e6a200);
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">OLGA'S SKIN SECRETS</div>
+      <div class="urgent-badge">New Appointment Booked!</div>
+      <h1 style="color: #8b4513; margin: 0;">New Appointment Request</h1>
+    </div>
+
+    <p><strong>A new appointment has been booked through the website!</strong></p>
+
+    <div class="appointment-details">
+      <h3 style="margin-top: 0; color: #8b4513;">Appointment Details:</h3>
+      <div class="detail-row">
+        <span class="detail-label">Service:</span>
+        <span class="detail-value"><%= @service.name %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Date:</span>
+        <span class="detail-value"><%= @appointment.formatted_date %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Time:</span>
+        <span class="detail-value"><%= @appointment.formatted_time %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Duration:</span>
+        <span class="detail-value"><%= @service.formatted_duration %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Price:</span>
+        <span class="detail-value"><%= @service.formatted_price %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value" style="color: #dc3545; font-weight: bold;">PENDING CONFIRMATION</span>
+      </div>
+    </div>
+
+    <div class="customer-info">
+      <h3 style="margin-top: 0; color: #2196f3;">Customer Information:</h3>
+      <div class="detail-row">
+        <span class="detail-label">Name:</span>
+        <span class="detail-value"><%= @user.first_name %> <%= @user.last_name %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Email:</span>
+        <span class="detail-value"><%= @user.email %></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Phone:</span>
+        <span class="detail-value"><%= @user.phone || "Not provided" %></span>
+      </div>
+    </div>
+
+    <% if @appointment.notes.present? %>
+      <div style="background-color: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+        <h4 style="margin-top: 0; color: #856404;">Customer Notes:</h4>
+        <p style="margin: 0; white-space: pre-wrap;"><%= @appointment.notes %></p>
+      </div>
+    <% end %>
+
+    <div style="text-align: center;">
+      <a href="mailto:<%= @user.email %>?subject=Re: Appointment Confirmation - <%= @service.name %>" class="button">Reply to Customer</a>
+      <br>
+      <a href="https://skin-secrets.fly.dev/admin/dashboard" class="button">View Admin Dashboard</a>
+    </div>
+
+    <div style="background-color: #d4edda; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745;">
+      <h4 style="margin-top: 0; color: #155724;">Next Steps:</h4>
+      <ul style="margin: 0; padding-left: 20px;">
+        <li>Review the appointment details</li>
+        <li>Confirm availability for the requested time</li>
+        <li>Reply to the customer to confirm or suggest alternatives</li>
+        <li>Update the appointment status in the admin dashboard</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p><strong>Olga's Skin Secrets</strong><br>
+      110 Nyon Rd, New Bern, NC 28562<br>
+      (919) 897-0150 | skinsecretsnc@gmail.com</p>
+      
+      <p style="font-size: 12px; color: #999;">
+        This notification was sent automatically when a new appointment was booked on skin-secrets.fly.dev
+      </p>
+    </div>
+  </div>
+</body>
+</html> 

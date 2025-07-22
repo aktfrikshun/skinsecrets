@@ -1,0 +1,186 @@
+<!-- Contact Header -->
+<section class="bg-gradient-to-br from-amber-50 to-warm-50 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center">
+      <h1 class="font-playfair text-5xl md:text-6xl font-bold text-gray-900 mb-6">Contact Us</h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get in touch with us to schedule your appointment or ask any questions about our services.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2">
+        <h2 class="font-playfair text-4xl font-bold text-gray-900 mb-6">Get In Touch</h2>
+        <p class="text-lg text-gray-600 mb-8">We'd love to hear from you! Whether you have questions about our services or want to schedule an appointment, we're here to help.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-map-marker-alt text-amber-600 text-lg"></i>
+            </div>
+            <div>
+              <h5 class="font-semibold text-gray-900 mb-2">Visit Us</h5>
+              <p class="text-gray-600 mb-1">110 Nyon Rd</p>
+              <p class="text-gray-600">New Bern, NC 28562</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-phone text-amber-600 text-lg"></i>
+            </div>
+            <div>
+              <h5 class="font-semibold text-gray-900 mb-2">Call Us</h5>
+              <p class="text-gray-600 mb-1">(919) 897-0150</p>
+              <p class="text-gray-600">Mon-Fri: 9AM-7PM</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-envelope text-amber-600 text-lg"></i>
+            </div>
+            <div>
+              <h5 class="font-semibold text-gray-900 mb-2">Email Us</h5>
+              <p class="text-gray-600 mb-1">skinsecretsnc@gmail.com</p>
+              <p class="text-gray-600">We'll respond within 24 hours</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+              <i class="fas fa-clock text-amber-600 text-lg"></i>
+            </div>
+            <div>
+              <h5 class="font-semibold text-gray-900 mb-2">Business Hours</h5>
+              <p class="text-gray-600 mb-1">Monday - Friday: 9AM-7PM</p>
+              <p class="text-gray-600">Saturday: 10AM-5PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="lg:col-span-1">
+        <div class="bg-gray-50 rounded-2xl p-8 shadow-lg">
+          <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+          
+          <% if notice %>
+            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <div class="flex items-center">
+                <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                <span class="text-green-800"><%= notice %></span>
+              </div>
+            </div>
+          <% end %>
+          
+          <% if alert %>
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <div class="flex items-center">
+                <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+                <span class="text-red-800"><%= alert %></span>
+              </div>
+            </div>
+          <% end %>
+          
+          <%= form_with url: contact_path, method: :post, class: "space-y-6" do |form| %>
+            <div>
+              <%= form.label :name, "Full Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.text_field :name, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors", placeholder: "Your full name", required: true %>
+            </div>
+            
+            <div>
+              <%= form.label :email, "Email Address", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.email_field :email, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors", placeholder: "your.email@example.com", required: true %>
+            </div>
+            
+            <div>
+              <%= form.label :phone, "Phone Number", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.telephone_field :phone, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors", placeholder: "(555) 123-4567" %>
+            </div>
+            
+            <div>
+              <%= form.label :subject, "Subject", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.select :subject, 
+                  options_for_select([
+                    ["General Inquiry", "General Inquiry"],
+                    ["Appointment Question", "Appointment Question"],
+                    ["Service Information", "Service Information"],
+                    ["Feedback", "Feedback"]
+                  ]), 
+                  {}, 
+                  { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors" } %>
+            </div>
+            
+            <div>
+              <%= form.label :message, "Message", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.text_area :message, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors", rows: 4, placeholder: "Tell us how we can help you...", required: true %>
+            </div>
+            
+            <%= form.submit "Send Message", class: "w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-amber-600 hover:to-amber-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1" do %>
+              <i class="fas fa-paper-plane mr-2"></i>Send Message
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="font-playfair text-4xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+      <p class="text-lg text-gray-600">Find answers to common questions about our services and appointments.</p>
+    </div>
+    
+    <div class="space-y-8">
+      <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="font-semibold text-xl text-gray-900 mb-4">How do I schedule an appointment?</h3>
+        <p class="text-gray-600">You can schedule an appointment by calling us at (919) 897-0150, emailing us at skinsecretsnc@gmail.com, or using our online booking system. We recommend booking at least a week in advance to ensure availability.</p>
+      </div>
+      
+      <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="font-semibold text-xl text-gray-900 mb-4">What should I expect during my first visit?</h3>
+        <p class="text-gray-600">During your first visit, we'll conduct a thorough skin analysis and discuss your skincare goals. This helps us create a personalized treatment plan tailored to your specific needs and concerns.</p>
+      </div>
+      
+      <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="font-semibold text-xl text-gray-900 mb-4">How long do treatments typically take?</h3>
+        <p class="text-gray-600">Treatment times vary depending on the service. Basic facials take about 60 minutes, while more comprehensive treatments can take 90-120 minutes. We'll provide you with an accurate time estimate when you book.</p>
+      </div>
+      
+      <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="font-semibold text-xl text-gray-900 mb-4">Do you offer package deals or memberships?</h3>
+        <p class="text-gray-600">Yes! We offer various package deals and membership options to help you maintain consistent skincare routines. Contact us for current specials and pricing information.</p>
+      </div>
+      
+      <div class="bg-white rounded-2xl p-8 shadow-lg">
+        <h3 class="font-semibold text-xl text-gray-900 mb-4">What products do you use?</h3>
+        <p class="text-gray-600">We use only high-quality, professional-grade skincare products that are carefully selected for their effectiveness and safety. All products are suitable for sensitive skin and are cruelty-free.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="font-playfair text-4xl font-bold text-gray-900 mb-6">Visit Our Location</h2>
+      <p class="text-lg text-gray-600">Conveniently located in New Bern, North Carolina</p>
+    </div>
+    
+    <div class="bg-gray-200 rounded-2xl p-8 text-center">
+      <div class="max-w-2xl mx-auto">
+        <i class="fas fa-map-marked-alt text-6xl text-amber-600 mb-6"></i>
+        <h3 class="font-semibold text-2xl text-gray-900 mb-4">110 Nyon Rd</h3>
+        <p class="text-lg text-gray-600 mb-6">New Bern, NC 28562</p>
+        <p class="text-gray-500">Map integration coming soon</p>
+      </div>
+    </div>
+  </div>
+</section> 

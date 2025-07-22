@@ -1,0 +1,113 @@
+<div class="bg-gradient-to-br from-amber-50 to-warm-50 py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <h1 class="font-playfair text-4xl md:text-5xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
+      <p class="text-lg text-gray-600">Manage your Skin Secrets website and monitor system status.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-users text-amber-600 text-xl"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gray-900"><%= @total_users %></div>
+            <div class="text-gray-600">Total Users</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-comments text-blue-600 text-xl"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gray-900"><%= @total_topics %></div>
+            <div class="text-gray-600">Forum Topics</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-reply text-green-600 text-xl"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gray-900"><%= @total_posts %></div>
+            <div class="text-gray-600">Forum Posts</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <div class="flex items-center">
+          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-robot text-purple-600 text-xl"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gray-900"><%= @ai_topics %></div>
+            <div class="text-gray-600">AI Topics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Facebook Integration Status -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <i class="fab fa-facebook mr-3 text-blue-600"></i>Facebook Integration
+        </h3>
+        
+        <div class="mb-6">
+          <% if @facebook_configured %>
+            <div class="flex items-center text-green-600 mb-4">
+              <i class="fas fa-check-circle mr-2"></i>
+              <span class="font-semibold">Configured and Ready</span>
+            </div>
+            <p class="text-gray-600 mb-4">Forum topics from AI and admin users will be automatically posted to Facebook.</p>
+          <% else %>
+            <div class="flex items-center text-red-600 mb-4">
+              <i class="fas fa-exclamation-circle mr-2"></i>
+              <span class="font-semibold">Not Configured</span>
+            </div>
+            <p class="text-gray-600 mb-4">Facebook integration needs to be set up to automatically post forum topics.</p>
+          <% end %>
+        </div>
+
+        <%= link_to admin_facebook_settings_path, class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1" do %>
+          <i class="fas fa-cog mr-2"></i>Manage Facebook Settings
+        <% end %>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <h3 class="font-playfair text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <i class="fas fa-tools mr-3 text-amber-600"></i>Quick Actions
+        </h3>
+        
+        <div class="space-y-4">
+          <%= link_to forum_topics_path, class: "flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300" do %>
+            <i class="fas fa-comments text-amber-600 mr-3"></i>
+            <span>Manage Forum Topics</span>
+          <% end %>
+
+          <%= link_to appointments_path, class: "flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300" do %>
+            <i class="fas fa-calendar text-amber-600 mr-3"></i>
+            <span>View Appointments</span>
+          <% end %>
+
+          <%= link_to root_path, class: "flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300" do %>
+            <i class="fas fa-home text-amber-600 mr-3"></i>
+            <span>View Website</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
