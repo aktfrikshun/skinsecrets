@@ -55,10 +55,45 @@
                   </div>
                 </div>
                 <div class="lg:col-span-1 text-center lg:text-right">
-                  <div class="text-gray-500 text-sm">
+                  <div class="text-gray-500 text-sm mb-4">
                     <div class="font-medium mb-1">Last activity:</div>
                     <div><%= topic.last_activity.strftime("%B %d, %Y") %></div>
                   </div>
+                  <% if logged_in? && @current_user&.email == 'admin@skinsecretsnc.com' %>
+                    <div class="mt-4">
+                      <% if topic.posted_to_facebook? %>
+                        <div class="text-center">
+                          <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg text-sm font-medium mb-2">
+                            <i class="fab fa-facebook mr-2"></i>Posted to FB
+                          </div>
+                          <div class="text-xs text-gray-500">
+                            <%= topic.facebook_posted_at.strftime("%m/%d %H:%M") %>
+                          </div>
+                          <% if topic.can_post_to_facebook? %>
+                            <%= button_to post_to_facebook_forum_topic_path(topic), method: :post, 
+                                class: "bg-gradient-to-r from-orange-500 to-orange-600 text-white px-3 py-1 rounded text-xs font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 mt-2",
+                                form: { style: "display: inline;" },
+                                data: { 
+                                  confirm: "Re-post this topic to Facebook?",
+                                  turbo_method: :post
+                                } do %>
+                              <i class="fas fa-redo mr-1"></i>Re-post
+                            <% end %>
+                          <% end %>
+                        </div>
+                      <% else %>
+                        <%= button_to post_to_facebook_forum_topic_path(topic), method: :post, 
+                            class: "bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5",
+                            form: { style: "display: inline;" },
+                            data: { 
+                              confirm: "Post this topic to Facebook immediately?",
+                              turbo_method: :post
+                            } do %>
+                          <i class="fab fa-facebook mr-2"></i>Post to FB
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </div>

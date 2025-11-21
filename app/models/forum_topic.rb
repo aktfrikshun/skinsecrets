@@ -34,6 +34,19 @@ class ForumTopic < ApplicationRecord
     cleaned_content.gsub(/\n/, "<br>").html_safe
   end
 
+  def posted_to_facebook?
+    facebook_post_id.present? && facebook_posted_at.present?
+  end
+
+  def can_post_to_facebook?
+    # Can post if not already posted or if it's been more than 24 hours
+    !posted_to_facebook? || facebook_posted_at < 24.hours.ago
+  end
+
+  def mark_as_posted_to_facebook(post_id)
+    update!(facebook_post_id: post_id, facebook_posted_at: Time.current)
+  end
+
   private
 
   def post_to_facebook

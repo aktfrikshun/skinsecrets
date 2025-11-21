@@ -112,6 +112,9 @@ class FacebookService
       result = service.post_message_with_retry(message)
 
       if result[:success]
+        # Mark the topic as posted to Facebook
+        forum_topic.mark_as_posted_to_facebook(result[:post_id])
+
         Rails.logger.info "FacebookService: Successfully posted topic '#{forum_topic.title}' to Facebook"
         Rails.logger.info "FacebookService: Post ID: #{result[:post_id]}"
       else

@@ -1,9 +1,9 @@
 class ForumTopicsController < ApplicationController
   before_action :require_login, except: [ :index, :show ]
-  before_action :set_forum_topic, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_forum_topic, only: [ :show, :edit, :update, :destroy, :post_to_facebook ]
   before_action :ensure_owner, only: [ :edit, :update ]
   before_action :ensure_owner_or_admin, only: [ :destroy ]
-  before_action :require_admin, only: [ :generate_ai_topic ]
+  before_action :require_admin, only: [ :generate_ai_topic, :post_to_facebook ]
 
   def index
     @forum_topics = ForumTopic.includes(:user, :forum_posts)
@@ -59,6 +59,22 @@ class ForumTopicsController < ApplicationController
       else
         redirect_to forum_topics_path, alert: "Failed to generate AI topic. Please check your OpenAI API key and try again."
       end
+    end
+  end
+
+  def post_to_facebook
+    begin
+      # Post to Facebook immediately
+      result = FacebookService.post_forum_topic(@forum_topic)
+
+      if result[:success]
+        redirect_to forum_topics_path, notice: "Topic '#{@forum_topic.title}' posted to Facebook successfully! Post ID: #{result[:post_id]}"
+      else
+        redirect_to forum_topics_path, alert: "Failed to post to Facebook: #{result[:error]}"
+      end
+    rescue => e
+      Rails.logger.error "Manual Facebook post error: #{e.message}"
+      redirect_to forum_topics_path, alert: "Error posting to Facebook: #{e.message}"
     end
   end
 

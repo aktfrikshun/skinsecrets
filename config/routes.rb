@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     resources :forum_posts, only: [ :create, :show, :edit, :update, :destroy ]
     member do
       post :generate_ai_topic
+      post :post_to_facebook
     end
   end
   get "forum", to: "forum_topics#index"
